@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack, Typography } from "@mui/joy";
 import { Result, Tion } from "../types/assessmentTypes";
 import CustomGaugeChart from "../components/CustomGaugeChart";
@@ -7,6 +7,7 @@ import Solutions from "../components/Solutions";
 import Share from "../components/ShareTool";
 import Box from "@mui/joy/Box";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
 
 interface ResultPageType {
   result: Result;
@@ -14,6 +15,12 @@ interface ResultPageType {
 }
 
 export default function ResultPage({ result, score }: ResultPageType) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    result === null && navigate("/assessment");
+    // eslint-disable-next-line
+  }, []);
+
   const [page, setPage] = useState(1);
   const [solutions, setSolutions] = useState<Tion[]>([]);
   const [showShare, setShowShare] = useState(false);
@@ -28,18 +35,18 @@ export default function ResultPage({ result, score }: ResultPageType) {
 
   return (
     <React.Fragment>
-      <Helmet prioritizeSeoTags>
+      <Helmet>
         <title>{result.name}</title>
-        <meta
-          property="og:url"
-          content={`https://assessment-tool-iota.vercel.app/result`}
-        />
+        <meta name="description" content={result.description.text} />
+
+        {/* Open Graph meta tags */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={result.name} />
         <meta property="og:description" content={result.description.text} />
         <meta property="og:image" content={result.key_actions_cta.url} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
       </Helmet>
-
       <Box
         component="section"
         sx={{

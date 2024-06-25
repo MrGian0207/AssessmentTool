@@ -1,21 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { Stack } from "@mui/joy";
 import { IoRocket } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { useNavigate } from "react-router-dom";
+import { useResult } from "../context/ResultContext";
+import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const serviceId = "service_hjyqbxi";
+const templateId = "template_2fnop6j";
+const publicKey = "MxXBxPXvp6L-aUSJL";
+
+// Create a new object that contains dynamic template params
 
 interface IFormInput {
   email: string;
 }
 
 function EmailForm() {
+  const navigate = useNavigate();
+  const { result } = useResult()!;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
-  
-  console.log(error);
+
+  useEffect(() => {
+    result !== null && navigate("/assessment");
+
+    // eslint-disable-next-line 
+  }, []);
 
   const {
     register,
@@ -27,25 +43,31 @@ function EmailForm() {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setIsLoading(true);
-    setError(null);
-    try {
-      // Kiểm tra liệu email đã nhập vào có tồn tại
-      const response = await fetch('http://localhost:5000/api/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
 
-      const result = await response.json();
-      console.log(result);
-    } catch (e) {
-      setError(e instanceof Error ? e : new Error('An unknown error occurred'));
-    }  finally {
+    const templateParams = {
+      from_name: "Minh Hiếu",
+      from_email: data.email,
+      to_name: data.email,
+      message: "Cảm ơn bạn đã tham gia bài test",
+    };
+
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
+    .then((response: EmailJSResponseStatus) => {
+      if (response.status === 200) {
+        navigate('/assessment')
+        toast.success('Xác nhận tham gia thành công')
+      }
+    })
+    .catch((error) => {
+      toast.error('Xác nhận tham gia thành công')
+    })
+    .finally(() => {
       setIsLoading(false);
-    }
+    })
   };
+
+
+  
 
   return (
     <section>

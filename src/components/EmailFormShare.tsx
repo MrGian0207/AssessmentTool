@@ -1,23 +1,31 @@
+import Input from "@mui/joy/Input";
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/joy";
-import Input from "@mui/joy/Input";
 import { ErrorMessage } from "@hookform/error-message";
 import { Stack } from "@mui/joy";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useResult } from "../context/ResultContext";
 import Button from "@mui/joy/Button";
+import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 interface IFormInput {
   email: string;
 }
+
+const serviceId = "service_hjyqbxi";
+const templateId = "template_f76sw0x";
+const publicKey = "MxXBxPXvp6L-aUSJL";
 
 interface EmailFormShareTypes {
   setShareWithEmail: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function EmailFormShare({ setShareWithEmail }: EmailFormShareTypes) {
+  const { result } = useResult()!;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
-  console.log(error);
 
   const handleEnterEmail = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -32,24 +40,29 @@ function EmailFormShare({ setShareWithEmail }: EmailFormShareTypes) {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setIsLoading(true);
-    setError(null);
-    try {
-      // Kiểm tra liệu email đã nhập vào có tồn tại
-      const response = await fetch("http://localhost:5000/api/email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    const templateParams = {
+      from_name: "Minh Hiếu",
+      from_email: data.email,
+      to_name: data.email,
+      level: `${result?.level} - ${result?.name}`,
+      description: result?.description.text,
+      message: result?.key_actions.map(action => action.text).join("\n"),
+    };
+  
 
-      const result = await response.json();
-      console.log(result);
-    } catch (e) {
-      setError(e instanceof Error ? e : new Error("An unknown error occurred"));
-    } finally {
-      setIsLoading(false);
-    }
+    emailjs
+      .send(serviceId, templateId, templateParams, publicKey)
+      .then((response: EmailJSResponseStatus) => {
+        if (response.status === 200) {
+          toast.success("Gửi kết quả đánh giá thành công");
+        }
+      })
+      .catch((error) => {
+        toast.success("Gửi kết quả đánh giá thất bại");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const {

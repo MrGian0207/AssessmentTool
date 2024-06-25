@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/joy";
 import { Stack } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import EmailFormShare from "../components/EmailFormShare";
 import { FacebookShareButton } from "react-share";
 import { useNavigate } from "react-router-dom";
+import { useResult } from "../context/ResultContext";
 
 function SharePage() {
   const navigate = useNavigate();
+  const { result } = useResult()!;
+
+  useEffect(() => {
+    result === null && navigate("/assessment");
+
+    // eslint-disable-next-line
+  }, []);
+
   const [shareWithEmail, setShareWithEmail] = useState<boolean>(false);
 
-  const shareUrl = "https://assessment-tool-iota.vercel.app/result";  
+  const shareUrl = "https://assessment-tool-iota.vercel.app/result" || "";
 
   const handleShareWithEmail = () => {
     setShareWithEmail(true);
@@ -21,7 +30,9 @@ function SharePage() {
   };
 
   const handleSaveResultUrl = () => {
-    navigator.clipboard.writeText("https://assessment-tool-iota.vercel.app/result");
+    navigator.clipboard.writeText(
+      "https://assessment-tool-iota.vercel.app/result"
+    );
   };
 
   return !shareWithEmail ? (
@@ -59,11 +70,18 @@ function SharePage() {
         </Typography>
 
         <Stack width={"100%"} direction="column" spacing={2} marginTop={3}>
-          <Button fullWidth>
-            <FacebookShareButton url={shareUrl} style={{ width: "100%" }}>
-              Chia sẻ qua Facebook
-            </FacebookShareButton>
-          </Button>
+          <FacebookShareButton
+            url={shareUrl}
+            style={{
+              width: "100%",
+              backgroundColor: "#0b6bcb",
+              padding: "6px 16px",
+              height: "36px",
+              borderRadius: "6px",
+            }}
+          >
+            Chia sẻ qua Facebook
+          </FacebookShareButton>
           <Button
             fullWidth
             variant="soft"

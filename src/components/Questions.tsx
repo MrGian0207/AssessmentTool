@@ -104,7 +104,7 @@ function QuestionsScreen({ setResult, setScore }: QuestionsScreenType) {
         ></Typography>
         <Typography
           level="body-md"
-          sx={{ color: "common.white", opacity: "0.6" }}
+          sx={{ color: "common.white", opacity: "0.6", userSelect: "none" }}
         >
           CÂU HỎI {currentQuestionIndex + 1}/10
         </Typography>
@@ -123,7 +123,7 @@ function QuestionsScreen({ setResult, setScore }: QuestionsScreenType) {
         {/* Title Of Question */}
         <Typography
           level="title-lg"
-          sx={{ color: "common.white", textAlign: "center" }}
+          sx={{ color: "common.white", textAlign: "center", userSelect: "none" }}
         >
           {questions[currentQuestionIndex].title}
         </Typography>
