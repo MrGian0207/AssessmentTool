@@ -1,20 +1,22 @@
-import React, { useState } from "react";
-import useFetch from "../hooks/useFetch";
+import React from "react";
 import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import ListItemContent from "@mui/joy/ListItemContent";
 import Button from "@mui/joy/Button";
-import { Instruction } from "../types/instructionTypes";
 import { Stack, Typography } from "@mui/joy";
 import { IoArrowForwardSharp } from "react-icons/io5";
+import { useResult } from "../context/ResultContext";
 
-function InstructionScreen() {
+interface InstructionScreenTypes {
+  setStartAssessment: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  const [startAssessment, setStartAssessment] = useState<boolean>(false);
-  const { data } = useFetch<Instruction>("/instruction.json");
+function InstructionScreen({ setStartAssessment }: InstructionScreenTypes) {
+  const { instruction } = useResult()!;
+
   const handleStartAssessment = () => {
-    setStartAssessment(true);
     localStorage.setItem("StartAssessment", "true");
+    setStartAssessment(true);
   };
 
   return (
@@ -52,10 +54,10 @@ function InstructionScreen() {
       >
         {/* Intruction */}
         <Typography level="title-lg" sx={{ color: "common.white" }}>
-          {data?.title}
+          {instruction?.title}
         </Typography>
         <List marker="disc">
-          {data?.descriptions.map((description) => {
+          {instruction?.descriptions.map((description) => {
             return (
               <ListItem key={description?.id}>
                 <ListItemContent>

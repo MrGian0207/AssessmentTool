@@ -12,6 +12,7 @@ function Share() {
   const handleReset = () => {
     setScore(0);
     setResult(null);
+    localStorage.setItem("StartAssessment", "false");
     navigate("/assessment");
   };
 

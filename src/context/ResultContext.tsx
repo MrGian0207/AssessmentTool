@@ -7,8 +7,11 @@ import React, {
   memo,
 } from "react";
 import { Result } from "../types/assessmentTypes";
+import { Instruction } from "../types/instructionTypes";
+import useFetch from "../hooks/useFetch";
 
 interface ResultContextTypes {
+  instruction: Instruction | null;
   score: number;
   result: Result | null;
   setScore: React.Dispatch<React.SetStateAction<number>>;
@@ -23,6 +26,9 @@ export const useResult = () => {
 
 export const ResultContextProvider: React.FC<{ children: ReactNode }> = memo(
   ({ children }) => {
+    const { data } = useFetch<Instruction>("/instruction.json");
+    const instruction = data;
+
     const initialScore = () => {
       const storedScore = localStorage.getItem("score");
       return storedScore ? parseInt(storedScore) : 0;
@@ -50,7 +56,7 @@ export const ResultContextProvider: React.FC<{ children: ReactNode }> = memo(
     }, [result]);
 
     return (
-      <ResultContext.Provider value={{ score, result, setScore, setResult }}>
+      <ResultContext.Provider value={{instruction, score, result, setScore, setResult }}>
         {children}
       </ResultContext.Provider>
     );

@@ -8,6 +8,8 @@ import Share from "../components/ShareTool";
 import Box from "@mui/joy/Box";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+import { Assessment } from "../types/assessmentTypes";
+import useFetch from "../hooks/useFetch";
 
 interface ResultPageType {
   result: Result;
@@ -21,17 +23,17 @@ export default function ResultPage({ result, score }: ResultPageType) {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    // Thực hiện thay đổi dynamic trong useEffect
-    const metaTag = document.querySelector('meta[property="og:image"]');
-    if (metaTag) {
-      metaTag.setAttribute('content', "https://www.pvm.vn/wp-content/uploads/2019/08/seo-la%CC%80-gi%CC%80-.jpg");
-    }
-  }, []);
+  const { data } = useFetch<Assessment>("/assessment.json");
 
   const [page, setPage] = useState(1);
   const [solutions, setSolutions] = useState<Tion[]>([]);
-  const [showShare, setShowShare] = useState(false);
+  const [showShare, setShowShare] = useState(
+    localStorage.getItem("StartAssessment")
+      ? localStorage.getItem("StartAssessment") === "true"
+        ? true
+        : false
+      : false
+  );
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -45,18 +47,36 @@ export default function ResultPage({ result, score }: ResultPageType) {
     <React.Fragment>
       <Helmet prioritizeSeoTags>
         <title>{result.name}</title>
-        <link rel="canonical" href="https://assessment-tool-iota.vercel.app"/>
+        <link
+          rel="canonical"
+          href="https://assessment-tool-iota.vercel.app/result"
+        />
         <meta name="description" content="Đánh giá kết quả"></meta>
         {/* Open Graph meta tags */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Đánh giá" />
         <meta property="og:description" content="Đánh giá kết quả" />
-        <meta property="og:url" content="https://assessment-tool-iota.vercel.app"></meta>
-        <meta property="og:image" content="https://www.pvm.vn/wp-content/uploads/2019/08/seo-la%CC%80-gi%CC%80-.jpg" />
-        <meta property="og:site_name" content="https://assessment-tool-iota.vercel.app"></meta>
+        <meta
+          property="og:url"
+          content="https://assessment-tool-iota.vercel.app/result"
+        ></meta>
+        <meta property="og:image" content={result.key_actions_cta.url} />
+        <meta
+          property="og:site_name"
+          content="https://assessment-tool-iota.vercel.app/result"
+        ></meta>
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Helmet>
+
+      <Typography
+        sx={{
+          color: "rgba(255,255,255,0.8)",
+          textTransform: 'uppercase'
+        }}
+      >
+        {data?.title}
+      </Typography>
       <Box
         component="section"
         sx={{
