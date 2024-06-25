@@ -1,0 +1,17 @@
+{
+    "title": "Hãy dựa vào hướng dẫn sau đây để trả lời các câu hỏi:",
+    "descriptions": [
+        {
+            "id": 1,
+            "text": "Chọn 'Có': nếu câu đó phản ánh hiện trạng đang VÀ được thực hiện một cách nhất quán (ít nhất 80% thời gian)"
+        } ,
+        {
+            "id": 2,
+            "text": "Chọn 'Không Có': nếu hoàn toàn chưa từng thực hiện"
+        },
+        {
+            "id": 3,
+            "text": "Chọn 'Không rõ vấn đề này': Nếu không chắc chắn đã thực hiện hay chưa"
+        }
+    ]
+}
