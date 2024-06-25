@@ -43,7 +43,7 @@ export default function ResultPage({ result, score }: ResultPageType) {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={result.name} />
         <meta property="og:description" content={result.description.text} />
-        <meta property="og:image" content={result.key_actions_cta.url} />
+        <meta property="og:image" content={"https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg"} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Helmet>
