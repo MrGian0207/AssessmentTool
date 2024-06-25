@@ -10,7 +10,7 @@ function SharePage() {
   const navigate = useNavigate();
   const [shareWithEmail, setShareWithEmail] = useState<boolean>(false);
 
-  const shareUrl = "https://assessment-tool-iota.vercel.app/result" || '';  
+  const shareUrl = "https://assessment-tool-iota.vercel.app/result";  
 
   const handleShareWithEmail = () => {
     setShareWithEmail(true);

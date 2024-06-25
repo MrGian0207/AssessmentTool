@@ -28,14 +28,18 @@ export default function ResultPage({ result, score }: ResultPageType) {
 
   return (
     <React.Fragment>
-      <Helmet>
+      <Helmet prioritizeSeoTags>
         <title>{result.name}</title>
-        <meta property="og:url" content={`https://assessment-tool-iota.vercel.app/result`} />
+        <meta
+          property="og:url"
+          content={`https://assessment-tool-iota.vercel.app/result`}
+        />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={result.name} />
         <meta property="og:description" content={result.description.text} />
         <meta property="og:image" content={result.key_actions_cta.url} />
       </Helmet>
+
       <Box
         component="section"
         sx={{
