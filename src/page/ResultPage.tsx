@@ -21,6 +21,14 @@ export default function ResultPage({ result, score }: ResultPageType) {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    // Thực hiện thay đổi dynamic trong useEffect
+    const metaTag = document.querySelector('meta[property="og:image"]');
+    if (metaTag) {
+      metaTag.setAttribute('content', "https://www.pvm.vn/wp-content/uploads/2019/08/seo-la%CC%80-gi%CC%80-.jpg");
+    }
+  }, []);
+
   const [page, setPage] = useState(1);
   const [solutions, setSolutions] = useState<Tion[]>([]);
   const [showShare, setShowShare] = useState(false);
@@ -44,7 +52,7 @@ export default function ResultPage({ result, score }: ResultPageType) {
         <meta property="og:title" content="Đánh giá" />
         <meta property="og:description" content="Đánh giá kết quả" />
         <meta property="og:url" content="https://assessment-tool-iota.vercel.app"></meta>
-        <meta property="og:image" content="https://baomoi-static.bmcdn.me/web/styles/img/facebook-thumb.png" />
+        <meta property="og:image" content="https://www.pvm.vn/wp-content/uploads/2019/08/seo-la%CC%80-gi%CC%80-.jpg" />
         <meta property="og:site_name" content="https://assessment-tool-iota.vercel.app"></meta>
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
