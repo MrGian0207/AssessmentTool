@@ -30,7 +30,7 @@ export default function ResultPage({ result, score }: ResultPageType) {
     <React.Fragment>
       <Helmet>
         <title>{result.name}</title>
-        <meta property="og:url" content={`http://localhost:3000/result`} />
+        <meta property="og:url" content={`https://assessment-tool-iota.vercel.app/assessment`} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={result.name} />
         <meta property="og:description" content={result.description.text} />

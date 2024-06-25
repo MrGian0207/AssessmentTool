@@ -10,7 +10,7 @@ function SharePage() {
   const navigate = useNavigate();
   const [shareWithEmail, setShareWithEmail] = useState<boolean>(false);
 
-  const shareUrl = "http://localhost:3000/result" || '';  
+  const shareUrl = "https://assessment-tool-iota.vercel.app/assessment" || '';  
 
   const handleShareWithEmail = () => {
     setShareWithEmail(true);
@@ -21,7 +21,7 @@ function SharePage() {
   };
 
   const handleSaveResultUrl = () => {
-    navigator.clipboard.writeText("http://localhost:3000/result");
+    navigator.clipboard.writeText("https://assessment-tool-iota.vercel.app/result");
   };
 
   return !shareWithEmail ? (
