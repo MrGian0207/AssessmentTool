@@ -35,15 +35,17 @@ export default function ResultPage({ result, score }: ResultPageType) {
 
   return (
     <React.Fragment>
-      <Helmet>
+      <Helmet prioritizeSeoTags>
         <title>{result.name}</title>
-        <meta name="description" content={result.description.text} />
-
+        <link rel="canonical" href="https://assessment-tool-iota.vercel.app"/>
+        <meta name="description" content="Đánh giá kết quả"></meta>
         {/* Open Graph meta tags */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={result.name} />
-        <meta property="og:description" content={result.description.text} />
-        <meta property="og:image" content={"https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg"} />
+        <meta property="og:title" content="Đánh giá" />
+        <meta property="og:description" content="Đánh giá kết quả" />
+        <meta property="og:url" content="https://assessment-tool-iota.vercel.app"></meta>
+        <meta property="og:image" content="https://baomoi-static.bmcdn.me/web/styles/img/facebook-thumb.png" />
+        <meta property="og:site_name" content="https://assessment-tool-iota.vercel.app"></meta>
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Helmet>
